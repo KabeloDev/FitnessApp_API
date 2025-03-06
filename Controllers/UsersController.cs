@@ -24,6 +24,23 @@ namespace API.Controllers
             _configuration = configuration;
         }
 
+        [HttpGet("GetUserById/{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _appDbContext.Users
+                .Where(u => u.Id == id)
+                .Select(u => new { u.Id, u.Username, u.Email })
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(user);
+        }
+
+
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -42,6 +59,12 @@ namespace API.Controllers
             if (username)
             {
                 return BadRequest("Username already exists");
+            }
+
+            var email = await _appDbContext.Users.AnyAsync(a => a.Email == registerDto.Email);
+            if (email)
+            {
+                return BadRequest("Email already exists");
             }
 
             var user = new User
@@ -89,5 +112,46 @@ namespace API.Controllers
             });
 
         }
+
+        [HttpPut("UpdateUser/{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateDTO updateUserDto)
+        {
+            var user = await _appDbContext.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Check if the new username is already taken
+            if (!string.IsNullOrEmpty(updateUserDto.Username) &&
+                await _appDbContext.Users.AnyAsync(u => u.Username == updateUserDto.Username && u.Id != id))
+            {
+                return BadRequest("Username already exists");
+            }
+
+            // Check if the new email is already taken
+            if (!string.IsNullOrEmpty(updateUserDto.Email) &&
+                await _appDbContext.Users.AnyAsync(u => u.Email == updateUserDto.Email && u.Id != id))
+            {
+                return BadRequest("Email already exists");
+            }
+
+            // Update the user details
+            if (!string.IsNullOrEmpty(updateUserDto.Username))
+            {
+                user.Username = updateUserDto.Username;
+            }
+            if (!string.IsNullOrEmpty(updateUserDto.Email))
+            {
+                user.Email = updateUserDto.Email;
+            }
+
+            // Save changes to the database
+            _appDbContext.Users.Update(user);
+            await _appDbContext.SaveChangesAsync();
+
+            return Ok(new { message = "User updated successfully", user });
+        }
+
     }
 }
