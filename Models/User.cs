@@ -6,6 +6,6 @@
         public string Username { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public string? ProfileImageUrl { get; set; } = "/Images/default.jpg"; 
+        public string? ProfileImageUrl { get; set; }
     }
 }

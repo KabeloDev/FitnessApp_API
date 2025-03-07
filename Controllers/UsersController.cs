@@ -29,7 +29,7 @@ namespace API.Controllers
         {
             var user = await _appDbContext.Users
                 .Where(u => u.Id == id)
-                .Select(u => new { u.Id, u.Username, u.Email })
+                .Select(u => new { u.Id, u.Username, u.Email, u.ProfileImageUrl })
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -144,6 +144,10 @@ namespace API.Controllers
             if (!string.IsNullOrEmpty(updateUserDto.Email))
             {
                 user.Email = updateUserDto.Email;
+            }
+            if (!string.IsNullOrEmpty(updateUserDto.ProfileImage))
+            {
+                user.ProfileImageUrl = updateUserDto.ProfileImage;
             }
 
             // Save changes to the database
