@@ -56,10 +56,10 @@ namespace FitnessApp.Controllers
         [HttpPut("PutPlanner/{id}")]
         public async Task<IActionResult> PutPlanner(int id, Planner planner)
         {
-            if (id != planner.Id)
-            {
-                return BadRequest("Planner ID mismatch.");
-            }
+            //if (id != planner.Id)
+            //{
+            //    return BadRequest("Planner ID mismatch.");
+            //}
 
             var existingPlanner = await _context.Planners.FindAsync(id);
             if (existingPlanner == null)

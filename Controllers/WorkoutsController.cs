@@ -117,20 +117,23 @@ namespace FitnessApp.Controllers
             return Ok(new { message = "Exercise added successfully", exercise });
         }
 
-        [HttpGet("GetExercise/{exerciseId}")]
-        public async Task<IActionResult> GetExercise(int exerciseId)
+        [HttpGet("GetExercises/{workoutId}")]
+        public async Task<IActionResult> GetExercises(int workoutId)
         {
-            var exercise = await _context.ExerciseEntries
+            // Retrieve the workout and include related exercises using EF Core's Include method
+            var workout = await _context.Workouts
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == exerciseId);
+                .Include(w => w.Exercises)  // Include exercises related to the workout
+                .FirstOrDefaultAsync(w => w.Id == workoutId);
 
-            if (exercise == null)
+            if (workout == null)
             {
-                return NotFound(new { message = "Exercise not found" });
+                return NotFound(new { message = "Workout not found" });
             }
 
-            return Ok(exercise);
+            return Ok(workout.Exercises);  // Return the exercises of the workout
         }
+
 
 
         [HttpPut("EditExercise/{exerciseId}")]
