@@ -20,17 +20,17 @@ A robust backend service designed to support a fitness tracking and workout plan
 <h2>Program walk-through:</h2>
 
 <p align="center">
-<img src="https://i.imgur.com/vnMtQZO.png" height="80%" width="80%" />
+<img src="https://i.imgur.com/vnMtQZO.png" height="500%" width="100%" />
 <br />
 <br />
 <br/>
-<img src="https://i.imgur.com/Xgof9CG.png" height="80%" width="80%" />
+<img src="https://i.imgur.com/Xgof9CG.png" height="500%" width="100%" />
 <br />
 <br />
-<img src="https://i.imgur.com/auvadLc.png" height="80%" width="80%" />
+<img src="https://i.imgur.com/auvadLc.png" height="500%" width="100%" />
 <br />
 <br />
-<img src="https://i.imgur.com/e6LcVQ2.png" height="80%" width="80%" />
+<img src="https://i.imgur.com/e6LcVQ2.png" height="500%" width="100%" />
 <br />
 <br />
 
